@@ -138,11 +138,13 @@ class SlabGeoOptWorkChain(WorkChain):
             pot_f = SinglefileData(file='/project/apps/surfaces/slab/Au.pot')
             inputs['file']['au_pot'] = pot_f
             
-            mol_indexes = find_mol.extract_mol_indexes_from_slab(atoms)
+            slab_analyzed = find_mol.analyze_slab(atoms)
+            
+            mol_indexes = [item for l in slab_analyzed['all_molecules'] for item in l]
             
             first_slab_atom = len(mol_indexes) + 1
             
-            mol_f = cls.mk_aiida_file(atoms[mol_indexes], "mol.xyz")
+            mol_f = cls.mk_aiida_file(atoms[:first_slab_atom-1], "mol.xyz")
             inputs['file']['mol_coords'] = mol_f
             
             if calc_type == 'Mixed DFTB':
@@ -170,7 +172,7 @@ class SlabGeoOptWorkChain(WorkChain):
         inputs['parameters'] = ParameterData(dict=inp)
 
         # settings
-        settings = ParameterData(dict={'additional_retrieve_list': ['*.pdb']})
+        settings = ParameterData(dict={'additional_retrieve_list': ['*.pdb', "*.xyz"]})
         inputs['settings'] = settings
 
         # resources

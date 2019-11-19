@@ -540,7 +540,7 @@ class SearchReplicaWidget(ipw.VBox):
     
     def __init__(self, **kwargs):
         
-        self.preprocess_version = 0.20
+        self.preprocess_version = 0.22
         
         btn_style = {'description_width': '60px'}
         btn_layout = {'width': '20%'}
@@ -699,7 +699,7 @@ class SearchReplicaWidget(ipw.VBox):
             html += '<p>pk: {}</p>'.format(struct_node.pk)
 
             # ... and the download link.
-            html += '<p><a target="_blank" href="./export_structure.ipynb?uuid={}">Export Structure</a></p><td>'\
+            html += '<p><a target="_blank" href="../export_structure.ipynb?uuid={}">Export Structure</a></p><td>'\
                     .format(struct_node.uuid)
 
             html += '</table>'
@@ -713,27 +713,28 @@ class SearchReplicaWidget(ipw.VBox):
         
         qb = QueryBuilder()
         
-        if preprocessed:
-            qb.append(WorkCalculation, tag='wc', filters={
-                'attributes._process_label': 'ReplicaWorkchain',
-                'and':[
-                    {'extras': {'has_key': 'preproc_v'}},
-                    {'extras.preproc_v': {'==': self.preprocess_version}},
-                ]
-            })
-        else:
-            qb.append(WorkCalculation, tag='wc', filters={
-                'attributes._process_label': 'ReplicaWorkchain',
-                'or':[
-                    {'extras': {'!has_key': 'preproc_v'}},
-                    {'extras.preproc_v': {'<': self.preprocess_version}},
-                ]
-            })
+        filters={
+            'attributes._process_label': 'ReplicaWorkchain',
+            'and':[
+                {'attributes': {'has_key': '_sealed'}},
+                {'attributes._sealed': {'==': True}}
+            ],
+        }
         
+        if preprocessed:
+            filters['and'] += [
+                {'extras': {'has_key': 'preproc_v'}},
+                {'extras.preproc_v': {'==': self.preprocess_version}},
+            ]
+        else:
+            filters['or'] = [
+                {'extras': {'!has_key': 'preproc_v'}},
+                {'extras.preproc_v': {'<': self.preprocess_version}},
+            ]
+        
+        qb.append(WorkCalculation, tag='wc', filters=filters)
         qb.order_by({'wc': {'ctime': 'asc'}})
         
-        #return [[load_node(116530)]]
-
         return qb.all()
     
     def _get_cp2k_struct_info(self, struct, initial=False):
@@ -796,8 +797,7 @@ class SearchReplicaWidget(ipw.VBox):
             
             cp2k_pk_keys = [(int(x.split('_')[1]), x) for x in wc_out.keys() if "CALL_" in x]
             
-            name = wc[0].description
-            
+            name = (wc[0].description).strip()
             
             if name not in replica_sets:
                 if name in existing_rep_sets:
@@ -862,7 +862,8 @@ class SearchReplicaWidget(ipw.VBox):
             cv_targets, structs, info = zip(*zipped)
             replica_sets[key]['structs'] = list(structs)
             replica_sets[key]['info'] = list(info)
-            
+           
+        print(replica_sets.keys())
         return replica_sets
 
     def get_replica_distance(self, s1, s2):

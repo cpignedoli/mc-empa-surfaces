@@ -9,6 +9,7 @@ ATOMIC_KINDS = {
     'Au':('DZVP-MOLOPT-SR-GTH','GTH-PBE-q11'),
     'Ag':('DZVP-MOLOPT-SR-GTH','GTH-PBE-q11'),
     'Cu':('DZVP-MOLOPT-SR-GTH','GTH-PBE-q11'),
+    'Co':('DZVP-MOLOPT-SR-GTH','GTH-PBE-q17'),
     'Al':('DZVP-MOLOPT-SR-GTH','GTH-PBE-q3'),
     'B' :('DZVP-MOLOPT-SR-GTH','GTH-PBE-q3'),
     'Br':('DZVP-MOLOPT-SR-GTH','GTH-PBE-q7'),
@@ -140,12 +141,28 @@ def get_cp2k_input(align                 = None,
                                                          cell  = cell
                                               ),
                                               get_force_eval_qs_dft(
-                                                         atoms         = atoms,
-                                                         cell          = cell,
-                                                         center_switch = center_switch,
-                                                         mgrid_cutoff  = mgrid_cutoff,
-                                                         vdw_switch    = vdw_switch,
-                                                         topology      = 'mol.xyz'
+                                                        atoms                 = atoms                 ,
+                                                        cell                  = cell                  ,
+                                                        cell_sym              = cell_sym              ,
+                                                        center_switch         = center_switch         ,
+                                                        corr_occ              = corr_occ              ,
+                                                        corr_virt             = corr_virt             ,
+                                                        eps_filter            = eps_filter            ,
+                                                        eps_grid              = eps_grid              ,
+                                                        eps_schwarz           = eps_schwarz           ,
+                                                        ev_sc_iter            = ev_sc_iter            ,
+                                                        gw_type               = gw_type               ,
+                                                        group_size            = group_size            ,
+                                                        mgrid_cutoff          = mgrid_cutoff          ,
+                                                        multiplicity          = multiplicity          ,
+                                                        rpa_num_quad_points   = rpa_num_quad_points   ,
+                                                        size_freq_integ_group = size_freq_integ_group ,
+                                                        spin_guess            = spin_guess            ,
+                                                        system_charge         = system_charge         ,
+                                                        topology              = 'mol.xyz'             ,
+                                                        uks_switch            = uks_switch            ,                               
+                                                        vdw_switch            = vdw_switch            ,                                
+                                                        workchain             = workchain
                                                        )
                             ]
         

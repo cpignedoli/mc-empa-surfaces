@@ -5,13 +5,10 @@ def get_start_widget(appbase, jupbase):
     template = """
     <table>
     <tr>
-        <th style="text-align:center">Structures</th>
-        <th style="width:60px" rowspan=2></th>
-        <th style="text-align:center">Slab Models</th>
-        <th style="width:60px" rowspan=2></th>
-        <th style="text-align:center">Molecules</th>
-        <th style="width:60px" rowspan=2></th>
-        <th style="text-align:center">Bulks</th>
+        <th width="20%" style="text-align:center">Structures</th>
+        <th width="20%" style="text-align:center">Slab Models</th>
+        <th width="20%" style="text-align:center">Molecules</th>
+        <th width="20%" style="text-align:center">Bulks</th>
         
     <tr>
     <td valign="top"><ul>
@@ -39,24 +36,23 @@ def get_start_widget(appbase, jupbase):
         <li><a href="{appbase}/bulks/search.ipynb" target="_blank">Search Cell Opt</a>
     </ul></td>
 
-    </tr></table>
 
-    <table>
     <tr>
-        <th style="text-align:center">Replicas</th>
-        <th style="width:60px" rowspan=2></th>
-        <th style="text-align:center">CI-NEB</th>
+        <th width="60px" style="text-align:center">Constrained opt.</th>
+        <th width="60px" style="text-align:center">Nudged Elastic Band</th>
     </tr>
     <tr>
     <td valign="top"><ul>
         <li><a href="{appbase}/reactions/replicas.ipynb" target="_blank">Generate replicas</a>
-        <li><a href="{appbase}/reactions/SearchReplica.ipynb" target="_blank">Search Replicas</a>
+        <li><a href="{appbase}/reactions/SearchReplica.ipynb" target="_blank">Search replicas</a>
     </ul></td>
     <td><ul>
-        <li><a href="{appbase}/reactions/NEB.ipynb" target="_blank">NEB</a>
+        <li><a href="{appbase}/reactions/NEB.ipynb" target="_blank">Submit NEB</a>
         <li><a href="{appbase}/reactions/SearchNEB.ipynb" target="_blank">Search NEBs</a>
     </ul></td>
+
     </tr></table>
+
 """
     
     html = template.format(appbase=appbase, jupbase=jupbase)

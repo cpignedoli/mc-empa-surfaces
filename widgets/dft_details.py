@@ -49,6 +49,7 @@ WIDGETS_DISABLE_DEFAULT = {
     'system_charge' : True,
     'multiplicity'  : True,
     'uks_switch'    : True,
+    'dft_plus_u'    : False,
     'cell_free'     : True,
     'cell_sym'      : True,
     'functional'    : True,
@@ -86,8 +87,8 @@ class DFTDetails(ipw.VBox):
                            description='# Nodes',
                            style=style, layout=layout)   
         
-        self.max_force = ipw.BoundedFloatText(description='MAX_FORCE:', value=1e-4, min=1e-4, 
-                                        max=1e-3, step=1e-4,style=style, layout=layout)
+        self.max_force = ipw.BoundedFloatText(description='MAX_FORCE:', value=1e-4, min=1e-5, 
+                                        max=1e-3, step=1e-5,style=style, layout=layout)
 
         self.calc_type = ipw.ToggleButtons(options=['Mixed DFTB', 'Mixed DFT', 'Full DFT'],
                                description='Calculation Type',
@@ -147,6 +148,9 @@ class DFTDetails(ipw.VBox):
         def get_spin_string():
             return self.spin_guess_string
         self.create_spin_guess_boxes()
+        self.dft_plus_u = ipw.Text(placeholder='e.g. Co 2 4.9 , Ni 2 6.0',
+                                    description='DFT+U',
+                                    style=style, layout={'width': '60%'})
 
         self.cell_free   = ipw.ToggleButtons(options=['FREE','KEEP_ANGLES', 'KEEP_SYMMETRY'],
                                        description='Cell freedom',
@@ -291,6 +295,7 @@ class DFTDetails(ipw.VBox):
             ('system_charge',   self.system_charge ), 
             ('multiplicity' ,   self.multiplicity  ),  
             ('uks_switch'   ,   self.uks_switch    ),
+            ('dft_plus_u'   ,   self.dft_plus_u    ),
             ('cell_free'    ,   self.cell_free     ),       
             ('cell_sym'     ,   self.cell_sym      ),
             ('cell'         ,   self.cell          )
@@ -368,6 +373,7 @@ class DFTDetails(ipw.VBox):
               calc_type="Full DFT",
               center_switch=False,
               uks_switch='RKS',
+              dft_plus_u = '',
               cell=''
              ):         
         self.calc_name.value = calc_name
@@ -379,6 +385,7 @@ class DFTDetails(ipw.VBox):
         self.vdw_switch.value = vdw_switch
         self.center_switch.value = center_switch
         self.uks_switch.value = uks_switch
+        self.dft_plus_u = dft_plus_u
         self.cell.value = cell
         self.update_job_details()
     

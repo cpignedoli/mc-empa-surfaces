@@ -5,7 +5,7 @@ def slab_is_valid(slab_analyzed,dft_type):
 
         first_metal_atom=slab_analyzed['slabatoms'][0]
 
-        if slab_analyzed['slab_elements'][first_metal_atom] not in ['Ag','Au','Cu']:
+        if not any(el in slab_analyzed['slab_elements'] for el in ['Ag','Au','Cu']):
             return (False, "Didn't find Au, Ag or Cu.")
 
         if len(slab_analyzed['adatoms'])>0:
