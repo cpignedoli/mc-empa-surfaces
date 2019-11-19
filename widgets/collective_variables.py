@@ -863,7 +863,6 @@ class SearchReplicaWidget(ipw.VBox):
             replica_sets[key]['structs'] = list(structs)
             replica_sets[key]['info'] = list(info)
            
-        print(replica_sets.keys())
         return replica_sets
 
     def get_replica_distance(self, s1, s2):
