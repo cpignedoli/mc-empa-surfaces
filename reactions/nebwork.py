@@ -204,6 +204,7 @@ class NEBWorkchain(WorkChain):
                              nstepsit=nstepsit,
                              rotate=rotate,
                              spring=spring,
+                             vdw_switch=vdw_switch,
                              calc_type=calc_type,
                              mgrid_cutoff=mgrid_cutoff,
                              nreplica_files=nreplica_files,
